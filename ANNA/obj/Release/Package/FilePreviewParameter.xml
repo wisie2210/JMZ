@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="annajimenez.net" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^d:\\documentos\\visual\ studio\ 2015\\Projects\\ANNA\\ANNA\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^d:\\documentos\\visual\ studio\ 2015\\Projects\\ANNA\\ANNA\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\aspnet-ANNA-20170427060943.mdf;Initial Catalog=aspnet-ANNA-20170427060943;Integrated Security=True" tags="">
+    <parameterEntry kind="XmlFile" scope="d:\\documentos\\visual\ studio\ 2015\\Projects\\ANNA\\ANNA\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+</parameters>
