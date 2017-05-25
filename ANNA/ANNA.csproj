@@ -254,6 +254,16 @@
     <Content Include="CSS\cc.css" />
     <Content Include="CSS\ccStyle.css" />
     <Content Include="CSS\General.css" />
+    <Content Include="CSS\spacegrid.css" />
+    <Content Include="CSS\spacegrid.min.css" />
+    <Content Include="DEMOS\SVGCHECK\css\component.css" />
+    <Content Include="DEMOS\SVGCHECK\css\demo.css" />
+    <Content Include="DEMOS\SVGCHECK\css\normalize.css" />
+    <Content Include="DEMOS\SVGCHECK\fonts\codropsicons\codropsicons.svg" />
+    <Content Include="DEMOS\SVGCHECK\fonts\codropsicons\license.txt" />
+    <Content Include="DEMOS\SVGCHECK\index.html" />
+    <Content Include="DEMOS\SVGCHECK\js\modernizr.custom.js" />
+    <Content Include="DEMOS\SVGCHECK\js\svgcheckbx.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -270,6 +280,8 @@
     <Content Include="JS\Master.js" />
     <Content Include="JS\skrollr.min.js" />
     <Content Include="JS\sticky-kit.js" />
+    <Content Include="Pages\architecture.html" />
+    <Content Include="photos\Arch\cubes.jpg" />
     <Content Include="photos\INICIO\morelos.jpg" />
     <Content Include="photos\INICIO\Portada1.jpg" />
     <Content Include="photos\INICIO\Portada3.JPG" />
@@ -312,6 +324,16 @@
     <Content Include="JS\favico.js-master\Makefile" />
     <Content Include="JS\favico.js-master\package.json" />
     <Content Include="JS\favico.js-master\readme.md" />
+    <Content Include="DEMOS\SVGCHECK\.DS_Store" />
+    <Content Include="DEMOS\SVGCHECK\css\.DS_Store" />
+    <Content Include="DEMOS\SVGCHECK\fonts\.DS_Store" />
+    <Content Include="DEMOS\SVGCHECK\fonts\codropsicons\.DS_Store" />
+    <Content Include="DEMOS\SVGCHECK\fonts\codropsicons\codropsicons.eot" />
+    <Content Include="DEMOS\SVGCHECK\fonts\codropsicons\codropsicons.ttf" />
+    <Content Include="DEMOS\SVGCHECK\fonts\codropsicons\codropsicons.woff" />
+    <Content Include="DEMOS\SVGCHECK\js\.DS_Store" />
+    <Content Include="DEMOS\SVGCHECK\README.md" />
+    <Content Include="fonts\itc-caslon-224-std-medium.otf" />
     <None Include="Properties\PublishProfiles\annajimenez.net - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -324,9 +346,14 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="svg\cube.svg" />
     <Content Include="svg\logo.svg" />
     <Content Include="Pages\coco.html" />
-    <Content Include="Web.config" />
+    <Content Include="svg\throu.svg" />
+    <Content Include="test\scroll.html" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

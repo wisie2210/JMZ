@@ -4,16 +4,20 @@
 }
 
 .logoWrapper {
-    left: 16%;
-    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0% 25%;
 }
 
 .logoIMG {
-    width: 750px;
+    width: 50vw;
+    height: auto !important;
+    margin: auto !important;
+    position: relative;
 }
 
 .cmsoon {
-    font-size: 10px;
+    font-size: .67em;
     font-weight: 100;
     color: rgba(0, 0, 0, 0.25);
     text-decoration: line-through;
@@ -22,4 +26,23 @@
 .cmsoonWrapper {
     margin: 0 70%;
     width: 110px;
+    position: relative;
+}
+
+.small_logo_wr {
+    margin: 15% 46.5%;
+    width: auto;
+        /*position: fixed;*/
+}
+
+    .small_logo_wr > .small_logo {
+        width: 100px;
+        height: auto !important;
+        margin: 0 auto;
+        position: relative;
+    }
+
+
+main#main::-webkit-scrollbar {
+    visibility: hidden;
 }
