@@ -1,0 +1,659 @@
+(function() {
+	var SUBDIRECTORY = "/";
+	var PAGETITLE = "M-S-D-S Studio";
+	var XSBREAK = 768;
+	var SMBREAK = 992;
+	var SPLASHKEY = 0;
+	var layoutVariations = ["splash_layout1","splash_layout2","splash_layout3","splash_layout4"];
+	var patternVariations = ["splash_pattern1","splash_pattern3","splash_pattern2","splash_pattern4"];
+	var colourVariations = ["schemePink","schemeBlue","schemePink", "schemeBlue"];
+
+
+	var MSDS = {
+
+		// ==================================================
+		// Page initialization
+
+		init: function() {
+			this.buttons();
+			this.lockProjectElements();
+			this.closeProjectInfo();
+			this.splashResize();
+			this.splashNav();
+			
+			$( window ).load(function() {
+				MSDS.changeView();
+			});
+
+			$(window).resize(function(){
+				$.doTimeout( 'resize', 500, function(){
+					MSDS.splashResize();
+				});
+			});
+
+			FastClick.attach(document.body);
+		},
+		
+
+		// ==================================================
+		// All page buttons
+
+		buttons: function() {
+
+			// Changes the page state of interior pages
+			$("a.interior-link").click(function(e){
+				e.preventDefault();
+				MSDS.changeState(this);
+			});
+			
+			// Changes the page state of project gallery
+			$("a.project-link").click(function(e){
+				e.preventDefault();
+				// grab data-title
+				var title = $(this).attr("data-title");
+				
+				// update page title
+				$("#section-projects .section_title h1").replaceWith("<h1>"+title+"</h1>");
+
+				// parse data-title to lowercase
+				var titleParsed = title.toLowerCase();
+
+				MSDS.changeState(this);
+
+				MSDS.projectSort(titleParsed, ".gallery_project");
+				
+				$(".project-link.active").removeClass("active");
+				$(this).addClass("active");
+
+			});
+			
+			// Closes interior sections
+			$(".closeSection").click(function(e) {
+				e.preventDefault();
+				MSDS.closeInterior();
+			});
+
+			// Toggles the navigation
+			$(".nav-toggle").click(function(e) {
+				e.preventDefault();
+				$(".nav-bar").toggleClass("active");
+				$(".sub-list").removeClass("active");
+			});
+
+			// Toggles the subnav
+			$(".sub-list h2 a").click(function(e) {
+				e.preventDefault();
+				$(".nav-bar").addClass("active");
+				$(this).parentsUntil(".sub-list").parent().first().toggleClass("active");
+			});
+			
+			$(".sub-list h2").mouseenter(function(){
+				$(".nav-bar").addClass("active");
+
+				if ($(window).width() >= XSBREAK) {
+					$(this).parent().css("width", "98px");
+					$(this).animate({opacity: "0"}, 300);
+					$(this).parent().animate({width: "250px"}, 150);
+					$(this).parent().delay(300).addClass("active");
+					$(this).parent().find("ul").css("opacity", "0");
+					$(this).parent().find("ul").delay(150).animate({opacity: "1"}, 300);
+				}
+			});
+			
+			$("nav").mouseleave(function() {
+				if ($(window).width() >= XSBREAK && $("nav .sub-list").hasClass("active")) {
+					$(".nav-bar").removeClass("active");
+					$("nav .sub-list").removeClass("active");
+					$("nav .sub-list").css("width", "250px");
+					$("nav .sub-list").animate({width: "98px"}, 300);
+					$("nav .sub-list h2").delay(150).animate({opacity: "1"}, 150);
+				}
+			});
+
+			// Toggles the project info
+			$("a.projectInfo-link").click(function(e) {
+				e.preventDefault();
+				var parentY = $(this).parentsUntil(".project").parent().offset().top;
+				var parentYbot = parentYbot + $(this).parentsUntil(".project").parent().outerHeight() - $(window).outerHeight();
+				var scrollY = $(window).scrollTop();
+				var targetObj = this;
+				
+				if (parentY > scrollY) {
+					$("body").animate({ scrollTop: parentY }, 300, function() {
+						MSDS.openProjectInfo(targetObj);
+					});
+				} else {
+					MSDS.openProjectInfo(targetObj);
+				}
+			});
+			
+			// Closes info on click outside modal
+			$(".project_images").click(function(e) {
+				e.preventDefault();
+				$(".project").removeClass("infoOpen");
+			});
+
+			// ======================
+			// Responsive Buttons
+
+			if ($(window).width() > XSBREAK) {
+
+				// Enlarge Image
+				$(".project_images img").click(function() {
+					
+					// Disable scroll
+					$("body").addClass("noScroll");
+					
+					// Run function
+					MSDS.enlargeImage($(this));
+	
+					// Activate container
+					$("#section-enlarged").addClass("open");
+
+				});
+
+				// Next Enlarge Image
+				$(".nextImage").click(function(e) {
+					e.preventDefault();
+					MSDS.switchEnlargeImage(1);
+				});
+
+				// Prev Enlarge Image
+				$(".prevImage").click(function(e) {
+					e.preventDefault();
+					MSDS.switchEnlargeImage(-1);
+				});
+
+
+			}
+
+		},
+
+
+		// ==================================================
+		// Splash Functions
+
+		splashCycle: function() {
+			
+			// Advance splash key
+			if (SPLASHKEY >= layoutVariations.length-1) {
+				SPLASHKEY = 0;
+			} else {
+				SPLASHKEY++;
+			}
+			
+			if (SPLASHKEY === 0 ) {
+				$(".section_logo").addClass(layoutVariations[SPLASHKEY]);
+				$(".section_logo").removeClass(layoutVariations[layoutVariations.length-1]);
+				$(".section_logo").addClass(patternVariations[SPLASHKEY]);
+				$(".section_logo").removeClass(patternVariations[patternVariations.length-1]);
+				$("#section-splash").removeClass(colourVariations[colourVariations.length-1]);
+				$("#section-splash").addClass(colourVariations[SPLASHKEY]);
+			} else {
+				$(".section_logo").addClass(layoutVariations[SPLASHKEY]);
+				$(".section_logo").removeClass(layoutVariations[SPLASHKEY-1]);
+				$(".section_logo").addClass(patternVariations[SPLASHKEY]);
+				$(".section_logo").removeClass(patternVariations[SPLASHKEY-1]);
+				$("#section-splash").removeClass(colourVariations[SPLASHKEY-1]);
+				$("#section-splash").addClass(colourVariations[SPLASHKEY]);
+			}
+		},
+		
+		splashResize: function() {
+			var contactHeight = 157;
+			var splashRatio = $(window).width() / ($(window).height() - contactHeight);
+
+			if ($(window).width() > SMBREAK) {
+				if (splashRatio > 1.857) {
+					var splashScaleShort = 1.875 / splashRatio;
+					$(".section_logo").css("transform", "scale("+splashScaleShort+")");
+				} else {
+					var splashScaleLong = ($(window).width() - 240) / (($(window).width() / 1560)*1320);
+					$(".section_logo").css("transform", "scale("+splashScaleLong+")");
+				}
+			}
+		},
+		
+		splashNav: function() {
+			if ($(window).width() > XSBREAK) {
+				$(window).scroll(function() {
+	
+					// Get current scroll position
+					var fromTop = $(this).scrollTop();
+	
+					// Determine if scroll position is within target area
+					
+					if (fromTop < $(window).height()/2 && $("body").hasClass("schemeWhite")) {
+						
+						$("#section-splash").removeClass("schemeWhite");
+						$("#section-splash").addClass(colourVariations[SPLASHKEY]);
+	
+						$("body").removeClass("schemeWhite");
+						$("body").addClass(colourVariations[SPLASHKEY]);
+	
+					} else if (fromTop > $(window).height()/2 && $("body").hasClass("schemeWhite") === false) {
+						// Otherwise use default colour scheme
+						$("body").removeClass("schemePink");
+						$("body").removeClass("schemeBlue");
+						$("body").addClass("schemeWhite");
+						$("#section-splash").removeClass("schemePink");
+						$("#section-splash").removeClass("schemeBlue");
+						$("#section-splash").addClass("schemeWhite");
+					}
+	
+				});
+			}
+		},
+		
+
+		// ==================================================
+		// Project Sorting
+		
+		projectSort: function(category, collection) {
+			
+			// go through projects
+			$(collection).each(function() {
+				// check if project data-category matches data-title
+				if ($(this).attr("data-category") === category || category === "all") {
+					$(this).addClass("active");
+				} else {
+					$(this).removeClass("active");
+				}
+			});
+		
+			this.projectStyle(category, collection);
+		},
+		
+		projectStyle: function(category, collection) {
+			// determine class of active projects
+			var activeProjects = collection+".active";
+
+			// set an array for possible combinations
+			var columnKey = 0;
+			var columnWidth;
+			var columnOptions2;
+			var columnOptions3;
+						
+			// go through active projects under category defined
+			$(activeProjects).each(function(i) {
+				
+				// setup temporary array
+				if (i%4 === 0) {
+					columnOptions2 = ["2","2"];
+					columnOptions3 = ["3","3"];
+				}
+				
+				// Determine Image Orientation
+				var imgOrientation;
+				var imgWidth = $(this).find("img").width();
+				var imgHeight = $(this).find("img").height();
+				
+				if (imgWidth > imgHeight) {
+					imgOrientation = "landscape";
+				} else if (imgWidth < imgHeight) {
+					imgOrientation = "portrait";
+				} else if (imgWidth === imgHeight) {
+					imgOrientation = "square";
+				}
+				
+				// Check which column options are left
+				if (columnOptions2.length && imgOrientation === "portrait") {
+					
+					// assign key to variable and use that key number to splice the value of the array
+					columnWidth = columnOptions2[columnKey];
+					columnOptions2.splice(columnKey, 1);
+
+				} else if (columnOptions3.length && imgOrientation === "landscape") {
+
+					// assign key to variable and use that key number to splice the value of the array
+					columnWidth = columnOptions3[columnKey];
+					columnOptions3.splice(columnKey, 1);
+
+				} else {
+					// find available column
+					if (columnOptions3.length) {
+						columnWidth = columnOptions3[columnKey];
+						columnOptions3.splice(columnKey, 1);
+					} else {
+						columnWidth = columnOptions2[columnKey];
+						columnOptions2.splice(columnKey, 1);
+					}
+				}
+
+				// remove classes from sm to lg 
+				for (var i = 1; i <= 10; i++) {
+					$(this).removeClass("col-sm-"+i);
+					$(this).removeClass("col-md-"+i);
+					$(this).removeClass("col-lg-"+i);
+				}
+
+				// assign the column width to the indexed item
+				$(this).addClass("col-sm-"+columnWidth);
+				$(this).addClass("col-md-"+columnWidth);
+				$(this).addClass("col-lg-"+columnWidth);
+				
+			});
+
+		},
+
+
+		// ==================================================
+		// Image Enlarge
+		
+		switchEnlargeImage: function(incrementBy) {
+
+			// Set variables
+			var curEnlargeSource = $("#section-enlarged img").attr("src");
+			var curProjectObj = $("img[data-src='" + curEnlargeSource + "']");
+			var curProjectIndex = Number(curProjectObj.attr("data-index"));
+			var curProjectParent = curProjectObj.parents(".project");
+			var curProjectLastIndex = Number(curProjectParent.find("img").last().attr("data-index"));
+			var newIndex = curProjectIndex + incrementBy;
+
+			// Check if index is out of bounds
+			if (newIndex > curProjectLastIndex || newIndex < 0) {
+				return;
+			}
+
+			// Set New Target
+			var newTarget = curProjectParent.find("img[data-index='" + newIndex + "']");
+
+			$("#section-enlarged img").css("opacity", "0");
+			
+			// Run function
+			$.doTimeout( 500, function(){
+				MSDS.enlargeImage(newTarget);
+			});
+
+		},
+		
+		enlargeImage: function(targetObject) {
+
+			var curProjectLength = targetObject.parents(".project").find("img").last().attr("data-index");
+
+			// Set enlarged state
+			if (targetObject.attr("data-index") == curProjectLength) {
+				$("#section-enlarged").removeClass("firstImage");
+				$("#section-enlarged").addClass("lastImage");
+			} else if (targetObject.attr("data-index") == 0) {
+				$("#section-enlarged").removeClass("lastImage");
+				$("#section-enlarged").addClass("firstImage");
+			} else {
+				$("#section-enlarged").removeClass("firstImage");
+				$("#section-enlarged").removeClass("lastImage");
+			}
+
+			// Set attributes
+			var enlargeImageTarget = {
+				source: targetObject.attr("data-src"),
+				sourceSet: targetObject.attr("data-srcset"),
+				sourceIndex: targetObject.attr("data-index"),
+				sourceWidth: targetObject.attr("width"),
+				sourceHeight: targetObject.attr("height")
+			};
+
+			// Set image tag
+			var imagehtml = '<img src="' + enlargeImageTarget.source + '" srcset="' + enlargeImageTarget.sourceSet + '" sizes="100vw"' + ' data-index="' + enlargeImageTarget.sourceIndex + '" class="closeSection lazyload"' + ' height="' + enlargeImageTarget.sourceHeight +'" width="'+ enlargeImageTarget.sourceWidth +'">';
+
+			// Replace image tag
+			$("#enlarge-imageContainer img").replaceWith(imagehtml);
+			
+			$("#enlarge-imageContainer img").click(function(e) {
+				e.preventDefault();
+				MSDS.closeInterior();
+			});
+
+		},
+
+
+		// ==================================================
+		// View changing 
+
+		changeState: function(obj) {
+			var t = $(obj).attr("data-title");
+			var u = $(obj).attr("href");
+			MSDS.updateURL(t, u);
+			MSDS.changeView();
+		},
+		
+		changeView: function() {
+
+			// Get browser URL
+			var curURL = window.location.pathname;
+
+			// Parse browser URL to relative location
+			var curURLrel = curURL.slice(SUBDIRECTORY.length, curURL.length);
+
+			// Remove slash if there is one at the end
+			if (curURLrel.charAt(curURLrel.length-1) === "/") {
+				curURLrel = curURLrel.slice(0, curURLrel.length-1);
+			}
+			
+			// Update nav
+
+			// Figure out if URL is interior section or project
+			if (curURLrel.indexOf("projects/") === 0) {
+
+				// if project
+				var projectItem = $("article[id*='"+ curURLrel + "']");
+				MSDS.openProject(projectItem);
+				MSDS.closeInterior();
+
+			} else if (curURLrel.length === 0) {
+
+				// if homepage
+
+			} else {
+
+				// if interior
+				var interiorItem = $("#section-"+curURLrel);
+				MSDS.closeInterior();
+				if(curURLrel === "projects") {
+					MSDS.projectSort("all", ".gallery_project");
+				}
+				MSDS.openInterior(interiorItem);
+
+			}
+
+			MSDS.updateNav(curURLrel);
+
+		},
+		
+		updateURL: function(t, u) {
+			var newURL = SUBDIRECTORY + u;
+			var newTitle;
+			if (t === "") {
+				newTitle = PAGETITLE;
+			} else {
+				newTitle = PAGETITLE + " - " + t;
+			}
+			var push = { pushTitle: newTitle, pushUrl: newURL };
+			
+
+			if (u.indexOf("projects/") === 0) {
+				history.replaceState(push, push.pushTitle, push.pushUrl);
+			} else {
+				history.pushState(push, push.pushTitle, push.pushUrl);
+			}
+
+			$(document).prop('title', push.pushTitle);
+		},
+
+		closeInterior: function() {
+			$("body").removeClass("noScroll");
+			$(".interior-section.open").removeClass("open");
+			$("nav a.active").removeClass("active");
+		},
+
+		openInterior: function(t) {
+			$(".section-overlay").scrollTop(0);
+			$("body").addClass("noScroll");
+			if ($(window).width() <= XSBREAK) {
+				$(".nav-bar").removeClass("active");
+				$(".sub-list").removeClass("active");
+			}
+			$(t).addClass("open");
+		},
+		
+		openProject: function(t) {
+			var projectTop = t.offset().top;
+			$("body, html").scrollTop(projectTop);
+		},
+	
+		updateNav: function(curURL) {
+
+			// Clear any active links
+			$("nav a.active").removeClass("active");
+			
+			// Find any new 
+			var findLinkName = 'nav a[href*="' + curURL + '"]';
+			$(findLinkName).first().addClass("active");
+
+		},
+
+
+		// ==================================================
+		// Project scrollspy actions
+
+		lockProjectElements: function() {
+			// Cache selectors
+			var scrollItems = $("#section-individual .project"),
+				curItem;
+
+			var curStatus = {index:"", bottom:"", stick:""};
+
+			// Bind to scroll
+			$(window).scroll(function(){
+
+				// Get container scroll position
+				var fromTop = $(this).scrollTop();
+
+				// Get id of current scroll item
+				var cur = scrollItems.map(function(){
+					if ($(this).offset().top < fromTop) {
+						return this;
+					}
+				});
+
+				// Get current item
+				curItem = $(cur[cur.length-1]);
+
+				// Check if it exists
+				if (cur.length > 0) {
+
+					// Define locations
+					var curLoc = {
+						top: curItem.offset().top,
+						topBot: curItem.offset().top + curItem.outerHeight() - $(window).height(),
+						botBot: curItem.offset().top + curItem.outerHeight()
+					};
+	
+					curStatus.bottom = curItem.hasClass("atBottom");
+					curStatus.stick = curItem.hasClass("stick");
+
+					// Fire if below bottom and disengaged
+					if (curLoc.topBot < fromTop && curStatus.bottom === false) {
+						$(curItem).addClass("atBottom");
+						$(curItem).removeClass("stick");
+					}
+	
+					// Fire if above bottom and unstuck
+					if (curLoc.topBot > fromTop && curStatus.stick === false) {
+						$(curItem).addClass("stick");
+						curItem.addClass("deactive");
+						$(curItem).removeClass("atBottom");
+					}
+
+
+				}
+
+				// Fire if last recorded index is different and above or equal to 0
+				if (curStatus.index !== curItem.index() && curItem.index() >= 0) {
+
+					// Swap Splash Cycle
+					if (curStatus.index === -1 && curItem.index() === 0) {
+						if ($(window).width() > XSBREAK) {
+							MSDS.splashCycle();
+						}
+					}
+
+					// Push project state
+					MSDS.updateURL(curItem.attr("data-title"), curItem.attr("id"));
+					curStatus.index = curItem.index();
+
+					// Set above projects current project "atBottom"
+					for (var i = 0; i < cur.length-1; i++) {
+						scrollItems.eq(i).addClass("atBottom");
+						scrollItems.eq(i).removeClass("deactive");
+					}
+
+					// Unstick projects below current project
+					for (var i = cur.length; i < scrollItems.length; i++) {
+						scrollItems.eq(i).removeClass("stick");
+						scrollItems.eq(i).removeClass("deactive");
+						scrollItems.eq(i).removeClass("atBottom");
+					}
+
+
+				} else if (curStatus.index !== curItem.index() && curItem.index() < 0) {
+
+					// Push home project state if above projects
+					MSDS.updateURL("", "");
+					curStatus.index = curItem.index();
+
+					// Unstick projects below current project
+					for (var i = cur.length; i < scrollItems.length; i++) {
+						scrollItems.eq(i).removeClass("stick");
+						scrollItems.eq(i).removeClass("deactive");
+					}
+				}
+
+			});
+		},
+
+
+		// ==================================================
+		// Project info module
+
+		openProjectInfo: function(obj) {
+			var projectInfoY,
+				projectInfoParent = $(obj).parentsUntil(".project").parent().first(),
+				projectInfoObj = projectInfoParent.find(".project_info"),
+				viewportHeight = $(window).height(),
+				scrollY = $(window).scrollTop();
+
+			// Check if Info is taller than window
+			if( projectInfoObj.height() < viewportHeight) {
+				projectInfoY = (scrollY - projectInfoParent.offset().top) + viewportHeight/2 - projectInfoObj.height()/2;
+			} else {
+				projectInfoY = (scrollY - projectInfoParent.offset().top);
+			}
+
+			projectInfoObj.css("top", projectInfoY);
+			projectInfoParent.toggleClass("infoOpen");
+		},
+
+		closeProjectInfo: function() {
+			$(window).scroll(function(){
+				if($(".project.infoOpen").length) {
+					var activeProjectInfoObj = $(".project.infoOpen .project_info"),
+						activeProjectInfoBottomY = activeProjectInfoObj.height() + activeProjectInfoObj.offset().top,
+						scrollBottomY = $(this).scrollTop() + $(this).height();
+
+					if (activeProjectInfoBottomY<scrollBottomY && $(this).scrollTop() > $(".project.infoOpen").offset().top ) {
+						$.doTimeout( 500, function(){
+							$(".project").removeClass("infoOpen");
+						});
+					}
+					
+					
+				}
+			});
+		}
+
+
+	};
+
+	MSDS.init();
+
+})();
