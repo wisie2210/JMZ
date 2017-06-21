@@ -1,0 +1,44 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 3165842, 2016-02-03T15:49:37-0500
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: CenturySchoolbookBT-Roman by Bitstream
+ * URL: http://www.myfonts.com../fonts/bitstream/century-schoolbook/roman/
+ * Copyright: Copyright 1990-2003 Bitstream Inc. All rights reserved.
+ * Licensed pageviews: 10,000
+ * 
+ * Webfont: CenturySchoolbookBT-Monospace by Bitstream
+ * URL: http://www.myfonts.com../fonts/bitstream/century-schoolbook/century-schoolbook-monospaced-10058/
+ * Copyright: Copyright 1990-2003 Bitstream Inc. All rights reserved.
+ * Licensed pageviews: 20,000
+ * 
+ * Webfont: CompactaLT by Linotype
+ * URL: http://www.myfonts.com../fonts/linotype/compacta-lt/regular/
+ * Copyright: Copyright &#x00A9; 1998, 2004, Linotype Library GmbH, www.linotype.com. All rights reserved. This software may not be reproduced, used, displayed, modified, disclosed or transferred without the express written approval of Linotype Library GmbH.
+ * Licensed pageviews: 250,000
+ * 
+ * 
+ * License: http://www.myfonts.com/viewlicense?type=web&buildid=3165842
+ * 
+ * © 2016 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import url("//hello.myfonts.net/count/304e92");
+
+  
+@font-face {font-family: 'CenturySchoolbookBT-Roman';src: url('../fonts/304E92_0_0.eot');src: url('../fonts/304E92_0_0.eot?#iefix') format('embedded-opentype'),url('../fonts/304E92_0_0.woff2') format('woff2'),url('../fonts/304E92_0_0.woff') format('woff'),url('../fonts/304E92_0_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'CenturySchoolbookBT-Monospace';src: url('../fonts/304E92_1_0.eot');src: url('../fonts/304E92_1_0.eot?#iefix') format('embedded-opentype'),url('../fonts/304E92_1_0.woff2') format('woff2'),url('../fonts/304E92_1_0.woff') format('woff'),url('../fonts/304E92_1_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'CompactaLT';src: url('../fonts/304E92_2_0.eot');src: url('../fonts/304E92_2_0.eot?#iefix') format('embedded-opentype'),url('../fonts/304E92_2_0.woff2') format('woff2'),url('../fonts/304E92_2_0.woff') format('woff'),url('../fonts/304E92_2_0.ttf') format('truetype');}
+ 
