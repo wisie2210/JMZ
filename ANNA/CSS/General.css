@@ -20,6 +20,10 @@
 }
 
 .cmsoonWrapper {
-    margin: 0 70%;
+    margin: -200px 70%;
     width: 110px;
+}
+
+body {
+    overflow: hidden;
 }
