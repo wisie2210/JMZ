@@ -1,0 +1,35 @@
+﻿.main-title {
+    /*display: block;
+    position: fixed;
+    top: 10%;
+    left: 13.5%;*/
+}
+
+    .main-title .rectangle {
+        /*font-size: 10vw;
+        text-align: center;
+        color: #EE364F;
+        font-family: gza;
+        z-index: 1;*/
+    }
+
+
+.logoIMG {
+    width: 750px;
+    width: 100%;
+    max-width: 750px;
+    position: absolute;
+    top: 0px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+html, body, .logoWrapper {
+    height: 100%;
+}
+
+.logoWrapper {
+    width: 100%;
+}
