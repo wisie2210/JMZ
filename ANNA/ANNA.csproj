@@ -254,6 +254,7 @@
     <Content Include="CSS\cc.css" />
     <Content Include="CSS\ccStyle.css" />
     <Content Include="CSS\General.css" />
+    <Content Include="CSS\photoswipe.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -268,9 +269,13 @@
     <Content Include="JS\favico.js-master\GPL-LICENSE.txt" />
     <Content Include="JS\favico.js-master\MIT-LICENSE.txt" />
     <Content Include="JS\Master.js" />
+    <Content Include="JS\photoswipe-ui-default.min.js" />
+    <Content Include="JS\photoswipe.min.js" />
     <Content Include="JS\skrollr.min.js" />
     <Content Include="JS\sticky-kit.js" />
+    <Content Include="Pages\branding.css" />
     <Content Include="Pages\branding.html" />
+    <Content Include="Pages\branding_files\branding.js" />
     <Content Include="Pages\branding_files\cube.svg" />
     <Content Include="Pages\branding_files\cubes.jpg" />
     <Content Include="Pages\branding_files\logo.svg" />
@@ -288,6 +293,7 @@
     <Content Include="Pages\M-S-D-S Studio - Halves Side Table_files\msds_studio_graydon_mono-750w.jpg" />
     <Content Include="Pages\M-S-D-S Studio - Halves Side Table_files\MyFontsWebfontsKit.css" />
     <Content Include="Pages\M-S-D-S Studio - Halves Side Table_files\reset.css" />
+    <Content Include="Pages\visualart.html" />
     <Content Include="photos\INICIO\morelos.jpg" />
     <Content Include="photos\INICIO\Portada1.jpg" />
     <Content Include="photos\INICIO\Portada3.JPG" />
